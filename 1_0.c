@@ -32,7 +32,7 @@ int main(int argc, char* argv[])
 
 	glutInitWindowSize(500, 500);
 
-	glutCreateWindow("Prog03: bouncing pixel");
+	glutCreateWindow("Prog06: bouncing triangle");
 
 	glutTimerFunc(delay, timer, 0);
 
