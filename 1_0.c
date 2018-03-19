@@ -63,13 +63,15 @@ void init()
 }
 
 void display()
-
 {
+	glClear(GL_COLOR_BUFFER_BIT);
+	
 	int i;
+	
 	glColor3f(x[0] / 50, y[0] / 50, 0.0);
-
+	
 	glBegin(GL_TRIANGLES);
-
+	
 	for (i = 0; i < 3;i++) {
 		glVertex2f(x[i], y[i]);
 
