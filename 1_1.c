@@ -74,3 +74,10 @@ void display()
 	glFlush();
 
 }
+void timer(int t) {
+
+	glutPostRedisplay();
+
+	glutTimerFunc(delay, timer, t);
+
+}
