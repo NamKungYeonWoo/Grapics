@@ -45,7 +45,6 @@ void display(){
 		bias *= -1;
 	}
 	angle += bias;
-	printf("%f\n",angle);
 	glBegin(GL_POINTS);
 	for (i = 0; i < 240; i++) {
 		for (j = 0; j < 416; j++) {
