@@ -55,7 +55,7 @@ int main(int argc, char* argv[])
 	glutInit(&argc, (char**)argv);
 	glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB | GLUT_DEPTH);
 	glutInitWindowSize(500, 500);
-	glutCreateWindow("Prog17: interactivity");
+	glutCreateWindow("Prog19: moving camera");
 	glEnableClientState(GL_COLOR_ARRAY); // notify to use color array
 	glEnableClientState(GL_VERTEX_ARRAY); // notify to use vertex array
 	glVertexPointer(3, GL_FLOAT, 0, vertices); // set vertex array pointer
