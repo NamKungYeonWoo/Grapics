@@ -10,6 +10,7 @@ GLint axis = 1;
 GLdouble eye[3] = { 1,1,1 };
 GLdouble at[3] = { 0,0,0 };
 GLdouble up[3] = { 0,1,0 };
+int delay = 20;
 void init()
 {
 	glMatrixMode(GL_PROJECTION);
@@ -18,7 +19,7 @@ void init()
 	glOrtho(-2.0, 2.0, -2.0, 2.0, -10.0, 10.0);
 	glEnable(GL_DEPTH_TEST);
 	glMatrixMode(GL_MODELVIEW);
-	
+
 }
 void display()
 {
@@ -43,15 +44,9 @@ void keyboard_handler(unsigned char key, int x, int y)
 	if (key == 'z') { eye[2] -= 0.01; }
 	if (key == 'Z') { eye[2] += 0.01; }
 }
-void mouse_handler(int btn, int state, int x, int y)
-{
-	if (btn == GLUT_LEFT_BUTTON && state == GLUT_DOWN) axis = 0;
-	if (btn == GLUT_MIDDLE_BUTTON && state == GLUT_DOWN) axis = 1;
-	if (btn == GLUT_RIGHT_BUTTON && state == GLUT_DOWN) axis = 2;
-}
 int main(int argc, char* argv[])
 {
-
+	void timer(int);
 	glutInit(&argc, (char**)argv);
 	glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB | GLUT_DEPTH);
 	glutInitWindowSize(500, 500);
@@ -60,10 +55,14 @@ int main(int argc, char* argv[])
 	glEnableClientState(GL_VERTEX_ARRAY); // notify to use vertex array
 	glVertexPointer(3, GL_FLOAT, 0, vertices); // set vertex array pointer
 	glColorPointer(3, GL_FLOAT, 0, colors); // set color array pointer
+	glutTimerFunc(delay, timer, 0);
 	glutKeyboardFunc(keyboard_handler); // add keyboard handler
-	glutMouseFunc(mouse_handler); // add mouse handler
 	glutDisplayFunc(display);
 	init();
 	glutMainLoop();
 	return 0;
+}
+void timer(int t) {
+	glutPostRedisplay();
+	glutTimerFunc(delay, timer, t);
 }
