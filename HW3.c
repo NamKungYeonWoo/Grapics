@@ -25,24 +25,24 @@ void display()
 
 	gluLookAt(p1[0], p1[1], p1[2], p2[0], p2[1], axis* p2[2], 0, 1, 0);
 	glPushMatrix();
-	glTranslatef(0, 0, 2);
-	glColor3f(0.0, 0.8, 0.7);
-	glutWireTeapot(0.5);
+		glTranslatef(0, 0, 2);
+		glColor3f(0.0, 0.8, 0.7);
+		glutWireTeapot(0.5);
 	glPopMatrix();
 	glPushMatrix();
-	glTranslatef(0, 0, -2);
-	glColor3f(1.0, 0.0, 0.0);
-	glutWireTeapot(0.5);
+		glTranslatef(0, 0, -2);
+		glColor3f(1.0, 0.0, 0.0);
+		glutWireTeapot(0.5);
 	glPopMatrix();
 	glPushMatrix();
-	glTranslatef(2, 0, 0);
-	glColor3f(0.0, 1.0, 0.0);
-	glutWireTeapot(0.5);
+		glTranslatef(2, 0, 0);
+		glColor3f(0.0, 1.0, 0.0);
+		glutWireTeapot(0.5);
 	glPopMatrix();
 	glPushMatrix();
-	glTranslatef(-2, 0, 0);
-	glColor3f(0.0, 0.0, 1.0);
-	glutWireTeapot(0.5);
+		glTranslatef(-2, 0, 0);
+		glColor3f(0.0, 0.0, 1.0);
+		glutWireTeapot(0.5);
 	glPopMatrix();
 	glFlush();
 }
@@ -51,6 +51,8 @@ void keyboard_handler(unsigned char key, int x, int y)
 	if (key == 'w') {
 		p1[0] += 0.01*sin((theta[0] * PI) / 180);
 		p1[2] += 0.01*cos((theta[0] * PI) / 180);
+		p2[0] += 0.01*sin((theta[0] * PI) / 180);
+		p2[2] += 0.01*cos((theta[0] * PI) / 180);
 	}
 	if (key == 'a') {
 		p1[0] += 0.01*sin(((theta[0] + 90) * PI) / 180);
@@ -61,6 +63,8 @@ void keyboard_handler(unsigned char key, int x, int y)
 	if (key == 's') {
 		p1[0] -= 0.01*sin((theta[0] * PI) / 180);
 		p1[2] -= 0.01*cos((theta[0] * PI) / 180);
+		p2[0] -= 0.01*sin((theta[0] * PI) / 180);
+		p2[2] -= 0.01*cos((theta[0] * PI) / 180);
 	}
 	if (key == 'd') {
 		p1[0] -= 0.01*sin(((theta[0] + 90)  * PI) / 180);
