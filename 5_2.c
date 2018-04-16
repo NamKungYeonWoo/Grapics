@@ -1,0 +1,193 @@
+#include <glut.h>
+#include <math.h>
+#include <stdio.h>
+struct Light {
+	GLfloat pos[4];
+	GLfloat amb[4];
+	GLfloat dif[4];
+	GLfloat spe[4];
+};
+struct Light light = {
+	{ 3.0,3.0,3.0,1.0 },
+	{ 1.0,1.0,1.0,1.0 },
+	{ 1.0,1.0,1.0,1.0 },
+	{ 1.0,1.0,1.0,1.0 }
+};
+typedef struct {
+	GLfloat amb[4]; // ambient ambient
+	GLfloat dif[4]; // diffuse diffuse
+	GLfloat spe[4]; // specular specular
+	GLfloat shi; // shininess shininess
+} Material;
+Material mat0 = {
+	{ 0.2, 0.2, 0.2, 1.0 },
+	{ 1.0, 1.0, 1.0, 1.0 },
+	{ 1.0, 1.0, 1.0, 1.0 },
+	{ 100.0}, 
+};
+Material mat1 = {
+	{ 0.2, 0.0, 0.0, 1.0 },
+	{ 1.0, 0.0, 0.0, 1.0 },
+	{ 1.0, 0.0, 0.0, 1.0 },
+	{ 100.0 }, 
+};
+Material mat2 = {
+	{ 0.0, 0.2, 0.0, 1.0 },
+	{ 0.0, 1.0, 0.0, 1.0 },
+	{ 0.0, 1.0, 0.0, 1.0 },
+	{ 100.0 },
+};
+GLfloat vertices[][3] = { { -1.0,-1.0,-1.0 },{ 1.0,-1.0,-1.0 },{ 1.0,1.0,-1.0 },{ -1.0,1.0,-1.0 },
+{ -1.0,-1.0, 1.0 },{ 1.0,-1.0, 1.0 },{ 1.0,1.0, 1.0 },{ -1.0,1.0, 1.0 } };
+void init()
+{
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+
+	glClearColor(1.0, 1.0, 1.0, 1.0);
+	glColor3f(0.5, 0.5, 0.5);
+	glOrtho(-10.0, 10.0, -10.0, 10.0, -10.0, 10.0);
+	gluLookAt(2.0, 2.0, 2.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+	glEnable(GL_DEPTH_TEST);
+
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+
+	glLightfv(GL_LIGHT0,GL_POSITION,light.pos);
+	glLightfv(GL_LIGHT0,GL_AMBIENT,light.amb);
+	glLightfv(GL_LIGHT0,GL_DIFFUSE,light.dif);
+	glLightfv(GL_LIGHT0,GL_SPECULAR,light.spe);
+
+	glShadeModel(GLU_FLAT);
+	glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHT0);
+}
+void normal(GLfloat *n) {
+	int i;
+	GLfloat x = sqrt(n[0]* n[0] +n[1]* n[1] +n[2]* n[2]);
+	if (x > 0)
+		for (i = 0; i < 3; i++)
+			n[i] /= x;
+}
+void polygon(int a, int b, int c, int d)
+{
+	GLfloat nor[3];
+	nor[0] = vertices[a][0] + vertices[b][0] + vertices[c][0], vertices[d][0];
+	nor[1] = vertices[a][1] + vertices[b][1] + vertices[c][1], vertices[d][1];
+	nor[2] = vertices[a][2] + vertices[b][2] + vertices[c][2], vertices[d][2];
+
+	normal(nor);
+
+	glBegin(GL_POLYGON);
+	glNormal3fv(nor);
+	glVertex3fv(vertices[a]);
+	glVertex3fv(vertices[b]);
+	glVertex3fv(vertices[c]);
+	glVertex3fv(vertices[d]);
+	glEnd();
+}
+
+void cube()
+{
+	polygon(0, 3, 2, 1);
+	polygon(2, 3, 7, 6);
+	polygon(0, 4, 7, 3);
+	polygon(1, 2, 6, 5);
+	polygon(4, 5, 6, 7);
+	polygon(0, 1, 5, 4);
+}
+
+void keyboard_handler(unsigned char key, int x, int y)
+{
+	printf("%c\n",key);
+	if (key == 'x')
+		light.pos[0] -= 0.1;
+	if (key == 'X')
+		light.pos[0] += 0.1;
+	if (key == 'y')
+		light.pos[1] -= 0.1;
+	if (key == 'Y')
+		light.pos[1] += 0.1;
+	if (key == 'z')
+		light.pos[2] -= 0.1;
+	if (key == 'Z')
+		light.pos[2] += 0.1;
+	if (key == 'a') {
+		light.amb[0] -= 0.1;
+		light.amb[1] -= 0.1;
+		light.amb[2] -= 0.1;
+	}
+	if (key == 'A') {
+		light.amb[0] += 0.1;
+		light.amb[1] += 0.1;
+		light.amb[2] += 0.1;
+	}
+	if (key == 'd') {
+		light.dif[0] -= 0.1;
+		light.dif[1] -= 0.1;
+		light.dif[2] -= 0.1;
+	}
+	if (key == 'D') {
+		light.dif[0] += 0.1;
+		light.dif[1] += 0.1;
+		light.dif[2] += 0.1;
+	}
+	glutPostRedisplay();
+}
+
+void display()
+{
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	glLoadIdentity();
+	glLightfv(GL_FRONT, GL_AMBIENT, mat0.amb);
+	glLightfv(GL_FRONT, GL_DIFFUSE, mat0.dif);
+	glLightfv(GL_FRONT, GL_SPECULAR, mat0.spe);
+	glLightfv(GL_FRONT, GL_SHININESS, mat0.spe);
+	
+	cube();
+
+	glLoadIdentity();
+	glTranslatef(-3.0, 0.0, 0.0);
+	glLightfv(GL_FRONT, GL_AMBIENT, mat1.amb);
+	glLightfv(GL_FRONT, GL_DIFFUSE, mat1.dif);
+	glLightfv(GL_FRONT, GL_SPECULAR, mat1.spe);
+	glLightfv(GL_FRONT, GL_SHININESS, mat1.spe);
+	cube();
+
+	glLoadIdentity();
+	glTranslatef(3.0,0.0,0.0);
+	glLightfv(GL_FRONT, GL_AMBIENT, mat2.amb);
+	glLightfv(GL_FRONT, GL_DIFFUSE, mat2.dif);
+	glLightfv(GL_FRONT, GL_SPECULAR, mat2.spe);
+	glLightfv(GL_FRONT, GL_SHININESS, mat2.spe);
+	cube();
+
+	glLightfv(GL_FRONT, GL_AMBIENT, mat0.amb);
+	glLightfv(GL_FRONT, GL_DIFFUSE, mat0.dif);
+	glLightfv(GL_FRONT, GL_SPECULAR, mat0.spe);
+	glLightfv(GL_FRONT, GL_SHININESS, mat0.spe);
+	glLightfv(GL_LIGHT0, GL_POSITION, light.pos);
+	glLightfv(GL_LIGHT0, GL_AMBIENT, light.amb);
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, light.dif);
+	glTranslatef(light.pos[0], light.pos[1], light.pos[2]);
+	glutSolidSphere(0.2,10,10);
+	glFlush();
+	glutSwapBuffers();
+	glutPostRedisplay();
+}
+
+int main(int argc, char* argv[])
+{
+	glutInit(&argc, (char**)argv);
+	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
+	glutInitWindowSize(500, 500);
+	glutCreateWindow("Prog24: Material");
+	glutKeyboardFunc(keyboard_handler);
+	glutDisplayFunc(display);
+
+	init();
+	glutMainLoop();
+
+	return 0;
+}
