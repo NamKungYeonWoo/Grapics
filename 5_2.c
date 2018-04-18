@@ -140,33 +140,33 @@ void display()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	glLoadIdentity();
-	glLightfv(GL_FRONT, GL_AMBIENT, mat0.amb);
-	glLightfv(GL_FRONT, GL_DIFFUSE, mat0.dif);
-	glLightfv(GL_FRONT, GL_SPECULAR, mat0.spe);
-	glLightfv(GL_FRONT, GL_SHININESS, mat0.spe);
+	glMaterialfv(GL_FRONT, GL_AMBIENT, mat0.amb);
+	glMaterialfv(GL_FRONT, GL_DIFFUSE, mat0.dif);
+	glMaterialfv(GL_FRONT, GL_SPECULAR, mat0.spe);
+	glMaterialf(GL_FRONT, GL_SHININESS, mat0.shi);
 	
 	cube();
 
 	glLoadIdentity();
 	glTranslatef(-3.0, 0.0, 0.0);
-	glLightfv(GL_FRONT, GL_AMBIENT, mat1.amb);
-	glLightfv(GL_FRONT, GL_DIFFUSE, mat1.dif);
-	glLightfv(GL_FRONT, GL_SPECULAR, mat1.spe);
-	glLightfv(GL_FRONT, GL_SHININESS, mat1.spe);
+	glMaterialfv(GL_FRONT, GL_AMBIENT, mat1.amb);
+	glMaterialfv(GL_FRONT, GL_DIFFUSE, mat1.dif);
+	glMaterialfv(GL_FRONT, GL_SPECULAR, mat1.spe);
+	glMaterialf(GL_FRONT, GL_SHININESS, mat1.shi);
 	cube();
 
 	glLoadIdentity();
 	glTranslatef(3.0,0.0,0.0);
-	glLightfv(GL_FRONT, GL_AMBIENT, mat2.amb);
-	glLightfv(GL_FRONT, GL_DIFFUSE, mat2.dif);
-	glLightfv(GL_FRONT, GL_SPECULAR, mat2.spe);
-	glLightfv(GL_FRONT, GL_SHININESS, mat2.spe);
+	glMaterialfv(GL_FRONT, GL_AMBIENT, mat2.amb);
+	glMaterialfv(GL_FRONT, GL_DIFFUSE, mat2.dif);
+	glMaterialfv(GL_FRONT, GL_SPECULAR, mat2.spe);
+	glMaterialf(GL_FRONT, GL_SHININESS, mat2.spe);
 	cube();
 
-	glLightfv(GL_FRONT, GL_AMBIENT, mat0.amb);
-	glLightfv(GL_FRONT, GL_DIFFUSE, mat0.dif);
-	glLightfv(GL_FRONT, GL_SPECULAR, mat0.spe);
-	glLightfv(GL_FRONT, GL_SHININESS, mat0.spe);
+	glMaterialfv(GL_FRONT, GL_AMBIENT, mat0.amb);
+	glMaterialfv(GL_FRONT, GL_DIFFUSE, mat0.dif);
+	glMaterialfv(GL_FRONT, GL_SPECULAR, mat0.spe);
+	glMaterialf(GL_FRONT, GL_SHININESS, mat0.shi);
 	glLightfv(GL_LIGHT0, GL_POSITION, light.pos);
 	glLightfv(GL_LIGHT0, GL_AMBIENT, light.amb);
 	glLightfv(GL_LIGHT0, GL_DIFFUSE, light.dif);
