@@ -127,7 +127,7 @@ int main(int argc, char* argv[])
 	glutInit(&argc, (char**)argv);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 	glutInitWindowSize(500, 500);
-	glutCreateWindow("Prog26: multiple objects");
+	glutCreateWindow("Prog27: Two objects");
 
 	// call-back functions
 	glutKeyboardFunc(keyboard_handler);
