@@ -1,11 +1,8 @@
 #include <math.h>
 #include <glut.h>
 
-// ---------------------------------------------------------------------------------------------
-// Type definition
-// ---------------------------------------------------------------------------------------------
 int delay = 20;
-GLfloat angle = 0,toggle=0;
+GLfloat angle = 0, toggle = 0;
 typedef struct _object
 {
 	GLfloat*        vertices;    // vertex array
@@ -26,21 +23,17 @@ typedef struct _window
 	GLfloat near;
 	GLfloat far;
 } Window;
-Window w = {0};
-// ---------------------------------------------------------------------------------------------
-// Data
-// ---------------------------------------------------------------------------------------------
+Window w = { -1,1,-1,1,-1,1 };
 
-// array 1 (top)
 GLfloat vertices1[][3] = { { -0.2,-1.0,-0.2 },{ 0.2,-1.0,-0.2 },{ 0.2,1.0,-0.2 },{ -0.2,1.0,-0.2 },
-	{ -0.2,-1.0, 0.2 },{ 0.2,-1.0, 0.2 },{ 0.2,1.0, 0.2 },{ -0.2,1.0, 0.2 } };
+{ -0.2,-1.0, 0.2 },{ 0.2,-1.0, 0.2 },{ 0.2,1.0, 0.2 },{ -0.2,1.0, 0.2 } };
 GLfloat colors1[][3] = { { 0.0, 0.0, 0.0 },{ 1.0, 0.0, 0.0 },{ 1.0,1.0, 0.0 },{ 0.0,1.0, 0.0 },
-	{ 0.0, 0.0, 1.0 },{ 1.0, 0.0, 1.0 },{ 1.0,1.0, 1.0 },{ 0.0,1.0, 1.0 } };
+{ 0.0, 0.0, 1.0 },{ 1.0, 0.0, 1.0 },{ 1.0,1.0, 1.0 },{ 0.0,1.0, 1.0 } };
 GLubyte indices1[] = { 0,3,2,1, 2,3,7,6, 0,4,7,3, 1,2,6,5, 4,5,6,7, 0,1,5,4 };
 GLfloat vertices2[][3] = { { -0.8,-0.1,-0.1 },{ 0.8,-0.1,-0.1 },{ 0.8,0.1,-0.1 },{ -0.8,0.1,-0.1 },
-	{ -0.8,-0.1,0.1 },{ 0.8,-0.1,0.1 },{ 0.8,0.1,0.1 },{ -0.8,0.1,0.1 } };
+{ -0.8,-0.1,0.1 },{ 0.8,-0.1,0.1 },{ 0.8,0.1,0.1 },{ -0.8,0.1,0.1 } };
 GLfloat colors2[][3] = { { 0.0, 0.0, 0.0 },{ 1.0, 0.0, 0.0 },{ 1.0,1.0, 0.0 },{ 0.0,1.0, 0.0 },
-	{ 0.0, 0.0, 1.0 },{ 1.0, 0.0, 1.0 },{ 1.0,1.0, 1.0 },{ 0.0,1.0, 1.0 } };
+{ 0.0, 0.0, 1.0 },{ 1.0, 0.0, 1.0 },{ 1.0,1.0, 1.0 },{ 0.0,1.0, 1.0 } };
 GLubyte indices2[] = { 0,3,2,1, 2,3,7,6, 0,4,7,3, 1,2,6,5, 4,5,6,7, 0,1,5,4 };
 GLfloat vertices3[][3] = { { -0.1,-0.4,-0.1 },{ 0.1,-0.4,-0.1 },{ 0.1,0.4,-0.1 },{ -0.1,0.4,-0.1 },
 { -0.1,-0.4,0.1 },{ 0.1,-0.4,0.1 },{ 0.1,0.4,0.1 },{ -0.1,0.4,0.1 } };
@@ -48,16 +41,8 @@ GLfloat colors3[][3] = { { 0.0, 0.0, 0.0 },{ 1.0, 0.0, 0.0 },{ 1.0,1.0, 0.0 },{ 
 { 0.0, 0.0, 1.0 },{ 1.0, 0.0, 1.0 },{ 1.0,1.0, 1.0 },{ 0.0,1.0, 1.0 } };
 GLubyte indices3[] = { 0,3,2,1, 2,3,7,6, 0,4,7,3, 1,2,6,5, 4,5,6,7, 0,1,5,4 };
 
-// ---------------------------------------------------------------------------------------------
-// Objects
-// ---------------------------------------------------------------------------------------------
-
-Object top,sb1,sb2,sb3;
+Object top, sb1, sb2, sb3;
 GLfloat dir = 1.0;
-
-// ---------------------------------------------------------------------------------------------
-// Functions
-// ---------------------------------------------------------------------------------------------
 
 void init()
 {
@@ -79,10 +64,6 @@ GLfloat clip(GLfloat x)
 	return x;
 }
 
-// ---------------------------------------------------------------------------------------------
-// I/O
-// ---------------------------------------------------------------------------------------------
-
 void keyboard_handler(unsigned char key, int x, int y)
 {
 	if (key == 'z') {
@@ -94,7 +75,7 @@ void keyboard_handler(unsigned char key, int x, int y)
 		w.far++;
 	}
 	if (key == 'Z') {
-		if (w.left == 0){}
+		if (w.left == 0) {}
 		else {
 			w.left++;
 			w.right--;
@@ -106,9 +87,9 @@ void keyboard_handler(unsigned char key, int x, int y)
 	}
 	if (key == 'r') {
 		if (toggle == 0) {
-			toggle = 1;
+			toggle =1;
 		}
-		if (toggle == 1) {
+		else if (toggle == 1) {
 			toggle = 0;
 		}
 	}
@@ -137,9 +118,9 @@ void draw(Object* p)
 	}
 	glPopMatrix();
 	if (p->next) {
-		
+
 		draw(p->next);
-		
+
 	}
 }
 
@@ -151,15 +132,15 @@ void display()
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	glOrtho(w.left,w.right,w.bottom,w.top,w.near,w.far);
+	glOrtho(w.left, w.right, w.bottom, w.top, w.near, w.far);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	
+
 	glRotatef(angle, 1, 1, 0.0);
-	for (y = -20; y <= 20;y+=4) {
-		for (x = -20; x <= 20; x+= 4) {
+	for (y = -20; y <= 20; y += 4) {
+		for (x = -20; x <= 20; x += 4) {
 			glPushMatrix();
-			glTranslatef(x,y,0);
+			glTranslatef(x, y, 0);
 			draw(&top);
 			glPopMatrix();
 			// flush & swap buffers
@@ -213,7 +194,7 @@ int main(int argc, char* argv[])
 	sb2.trans[0] = sb1.trans[2] = 0;
 	sb2.trans[1] = -1.0;
 	sb2.child = &sb3;
-	sb2.next =0;
+	sb2.next = 0;
 	sb3.vertices = &vertices3[0][0];
 	sb3.colors = &colors3[0][0];
 	sb3.indices = &indices3[0];
@@ -233,7 +214,7 @@ void timer(int t) {
 	sb1.theta[2] += 4.0*dir;  sb1.theta[2] = clip(sb1.theta[2]);
 	sb2.theta[2] += 4.0*dir;  sb2.theta[2] = clip(sb2.theta[2]);
 	sb3.theta[2] += 5.0*dir;  sb3.theta[2] = clip(sb3.theta[2]);
-	if(toggle==1)
+	if (toggle == 1)
 		angle++;
 	glutPostRedisplay();
 	glutTimerFunc(delay, timer, t);
